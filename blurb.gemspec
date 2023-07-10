@@ -38,7 +38,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "faker", "~> 2.1.0"
 
   spec.add_runtime_dependency "rest-client", "~> 2.0"
-  spec.add_runtime_dependency "oauth2", "~> 1.4.0"
+  spec.add_runtime_dependency "oauth2", "~> 2.0"
   spec.add_runtime_dependency "activesupport"
 
 end
