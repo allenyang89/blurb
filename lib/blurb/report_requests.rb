@@ -24,24 +24,40 @@ class Blurb
       }
       payload[:segment] = segment if segment
       payload[:tactic] = SD_TACTIC if @campaign_type.to_sym == :sd
+      
+      # record_type.to_s.camelize(:lower)
+ 
+      options = {
+        "name":"SP campaigns report 7/5-7/10",
+        "startDate":"2023-07-05",
+        "endDate":"2023-07-10",
+        "configuration":{
+            "adProduct":"SPONSORED_PRODUCTS",
+            "groupBy":["campaign"],
+            "columns":["impressions","clicks","cost","campaignId","startDate","endDate"],
+            "reportTypeId":"spCampaigns",
+            "timeUnit":"SUMMARY",
+            "format":"GZIP_JSON"
+        }
+    }
 
       execute_request(
-        api_path: "/#{record_type.to_s.camelize(:lower)}/report",
+        api_path: "/reporting/reports",
         request_type: :post,
-        payload: payload
+        payload: options
       )
     end
 
     def retrieve(report_id)
       execute_request(
-        api_path: "/reports/#{report_id}",
+        api_path: "/reporting/reports/#{report_id}",
         request_type: :get,
       )
     end
 
     def download(report_id)
       execute_request(
-        api_path: "/reports/#{report_id}/download",
+        api_path: "/reporting/reports/#{report_id}/download",
         request_type: :get,
       )
     end
