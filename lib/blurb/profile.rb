@@ -72,7 +72,7 @@ class Blurb
       )
       @sp_reports = ReportRequests.new(
         headers: headers_hash,
-        base_url: @account.api_url,
+        base_url: @account.api_url.gsub('v1',''),
         campaign_type: CAMPAIGN_TYPE_CODES[:sp]
       )
       @sd_reports = ReportRequests.new(

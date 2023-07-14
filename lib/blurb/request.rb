@@ -4,6 +4,7 @@ require "blurb/base_class"
 require "blurb/errors/request_throttled"
 require "blurb/errors/invalid_report_request"
 require "blurb/errors/failed_request"
+require 'zlib'
 
 class Blurb
   class Request < BaseClass
@@ -39,6 +40,7 @@ class Blurb
       begin
         resp = RestClient::Request.execute(request_config())
         log("response", resp)
+        resp = Zlib.gunzip(resp.body) if resp.request.url =~ /offline-report-storage/
       rescue RestClient::TooManyRequests => err
         raise RequestThrottled.new(JSON.parse(err.response.body))
       rescue RestClient::TemporaryRedirect => err

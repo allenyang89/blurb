@@ -6,7 +6,8 @@ class Blurb
 
     def initialize(campaign_type:, base_url:, headers:)
       @campaign_type = campaign_type
-      @base_url = "#{base_url}/v2/#{@campaign_type}"
+      # @base_url = "#{base_url}/v2/#{@campaign_type}"
+      @base_url = "#{base_url}"
       @headers = headers
     end
 
@@ -56,10 +57,13 @@ class Blurb
     end
 
     def download(report_id)
-      execute_request(
-        api_path: "/reporting/reports/#{report_id}/download",
+      download_url = retrieve(report_id)[:url]
+      # headers = @headers.dup["Content-Encoding"] = "gzip"
+      Request.new(
+        url: download_url,
         request_type: :get,
-      )
+        headers: {"Content-Encoding"=>"gzip"}
+      ).make_request
     end
 
     private
